@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Bug Mode - Java Debugging Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url(5.jpg) no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: black;
+            width: 98%;
+            margin-bottom: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links .active {
+            background: rgb(26, 116, 89);
+            border-radius: 5px;
+            outline: 1px solid rgba(26, 190, 196, 0.76); 
+            box-shadow: 0 0 2px 3px rgba(26, 190, 196, 0.2);
+        }
+        .title-header {
+            color: rgb(44, 255, 202);
+            display: inline-block;
+            width: 500px;
+            padding: 15px;
+            margin-bottom: 0;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.493);
+            backdrop-filter: blur(10px);
+
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .box {
+            width: 45%;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .box-buggycode {
+            text-align: left;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            overflow-x: auto;
+            padding-bottom: 65px;
+        }
+
+        textarea {
+            width: 97%;
+            height: 150px;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: rgba(7, 143, 255, 0.8);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: rgba(24, 12, 138, 0.9);
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        #hintBox {
+            display: none;
+            margin-top: 10px;
+            color: lightblue;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">InnovativeProjects</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="mystery-bug.html" class="active">Mystery Bug Mode</a></li>
+                <li><a href="menu.html">Quit</a></li>
+                <li><a href="contact.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2 class="title-header">Mystery Bug Mode: Find the Hidden Bug</h2>
+    <p>Analyze the code carefully! If you're stuck, you can reveal a hint.</p>
+
+    <div class="container">
+        <!-- Buggy Code (Left Side) -->
+        <div class="box">
+            <h3>Buggy Code:</h3>
+            <pre class="box-buggycode" id="buggyCode"></pre>
+            <button onclick="showHint()">Show Hint</button>
+            <p id="hintBox"></p>
+        </div>
+
+        <!-- Your Solution (Right Side) -->
+        <div class="box">
+            <h3>Your Solution:</h3>
+            <textarea id="userCode" placeholder="//Copy & Paste or Type your corrected code here..."></textarea>
+            <br>
+            <button onclick="checkSolution()">Submit Code</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+let bugLevels = [
+    {
+        buggy: `public class Main {
+    public static void main(String[] args) {
+        int number = "5";
+        System.out.println(number * 2);
+    }
+}`,
+        correct: `public class Main {
+    public static void main(String[] args) {
+        int number = 5;
+        System.out.println(number * 2);
+    }
+}`,
+        hint: "Check the variable type. Is it correct for mathematical operations?"
+    },
+    {
+        buggy: `public class Example {
+    public static void main(String[] args) {
+        String message = "Hello, World!"
+        System.out.println(message);
+    }
+}`,
+        correct: `public class Example {
+    public static void main(String[] args) {
+        String message = "Hello, World!";
+        System.out.println(message);
+    }
+}`,
+        hint: "Pay attention to punctuation. Missing something?"
+    },
+    {
+        buggy: `public class LoopTest {
+    public static void main(String[] args) {
+        for(int i = 0; i < 5; i++) {
+            System.out.println("Iteration: " + i)
+        }
+    }
+}`,
+        correct: `public class LoopTest {
+    public static void main(String[] args) {
+        for(int i = 0; i < 5; i++) {
+            System.out.println("Iteration: " + i);
+        }
+    }
+}`,
+        hint: "Look at the print statement. Something is missing at the end."
+    },
+    {
+        buggy: `public class LogicBug {
+    public static void main(String[] args) {
+        for(int i = 5; i > 0; i++) {
+            System.out.println("Counting: " + i);
+        }
+    }
+}`,
+        correct: `public class LogicBug {
+    public static void main(String[] args) {
+        for(int i = 5; i >= 0; i--) {
+            System.out.println("Counting: " + i);
+        }
+    }
+}`,
+        hint: "Is the loop stopping where it should? Think about how loops decrement."
+    },
+    {
+        buggy: `public class ScopeIssue {
+    public static void main(String[] args) {
+        System.out.println(message);
+    }
+    String message = "Hello, Java!";
+}`,
+        correct: `public class ScopeIssue {
+    public static void main(String[] args) {
+        String message = "Hello, Java!";
+        System.out.println(message);
+    }
+}`,
+        hint: "Where should the variable be declared to be accessible in main()?"
+    }
+];
+
+
+        let currentLevel = 0;
+        let gameOver = false;
+
+        function loadBuggyCode() {
+            if (currentLevel < bugLevels.length) {
+                document.getElementById("buggyCode").innerText = bugLevels[currentLevel].buggy;
+                document.getElementById("hintBox").innerText = bugLevels[currentLevel].hint;
+                document.getElementById("hintBox").style.display = "none"; // Hide hint initially
+                document.getElementById("userCode").value = "";
+                document.getElementById("result").innerHTML = "";
+            } else {
+                document.getElementById("result").innerHTML = "🏆 You Win! You solved all the Mystery Bugs!";
+                document.getElementById("result").style.color = "lightgreen";
+                gameOver = true;
+            }
+        }
+
+        function showHint() {
+            document.getElementById("hintBox").style.display = "block";
+        }
+
+        function checkSolution() {
+            if (gameOver) return;
+
+            let userCode = document.getElementById("userCode").value.trim();
+            let correctCode = bugLevels[currentLevel].correct.trim();
+
+            if (userCode === correctCode) {
+                document.getElementById("result").innerHTML = "✅ Correct! Moving to next bug...";
+                document.getElementById("result").style.color = "lightgreen";
+                currentLevel++;
+                setTimeout(loadBuggyCode, 1500);
+            } else {
+                document.getElementById("result").innerHTML = "❌ Incorrect! Try again!";
+                document.getElementById("result").style.color = "red";
+            }
+        }
+
+        window.onload = loadBuggyCode;
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Mode - Java Debugging Game</title>
+    
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('4.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: black;
+            width: 100%;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin: 0 10px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 12px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links .active {
+            background: rgb(26, 116, 89);
+            border-radius: 5px;
+            outline: 1px solid rgba(26, 190, 196, 0.76);
+            box-shadow: 0 0 2px 3px rgba(26, 190, 196, 0.2);
+        }
+
+        /* Title Header */
+        .title-header {
+            color: rgb(44, 255, 202);
+            display: inline-block;
+            width: 90%;
+            max-width: 500px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            font-size: 1.5em;
+        }
+
+        /* Game Container */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .box, .box1 {
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(26, 190, 196, 0.76);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .box-buggycode {
+            text-align: left;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 96%;
+            height: 150px;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 12px;
+            border: none;
+            background: rgba(40, 131, 167, 0.8);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background: rgba(33, 48, 136, 0.9);
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .nav-links li {
+                margin: 5px 0;
+            }
+
+            .title-header {
+                font-size: 1.2em;
+                padding: 10px;
+            }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .box, .box1 {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">ProgThoughts Creatives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="survival.html" class="active">Survival Mode</a></li>
+                <li><a href="menu.html">Quit</a></li>
+                <li><a href="contact.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2 class="title-header">Survival Mode: Fix the Bug or Lose!</h2>
+    <p>Debug the code below. One mistake and it's **Game Over!**</p>
+
+    <div class="container">
+        <!-- Buggy Code Box -->
+        <div class="box1">
+            <h3>Buggy Code:</h3>
+            <pre class="box-buggycode" id="buggyCode"></pre>
+        </div>
+
+        <!-- Your Solution Box -->
+        <div class="box">
+            <h3>Your Solution:</h3>
+            <textarea id="userCode" placeholder="// Copy & Paste or Type your corrected code here..."></textarea>
+            <br>
+            <button onclick="checkSolution()">Submit Code</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        let bugLevels = [
+            {
+                buggy: `public class Main {
+        public static void main(String args) {
+            System.out.println("Hello World");
+        }
+    }`,
+                correct: `public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello World");
+        }
+    }`
+            },
+            {
+                buggy: `public class Example {
+        public void display() {
+            System.out.println("Example class")
+        }
+    }`,
+                correct: `public class Example {
+        public void display() {
+            System.out.println("Example class");
+        }
+    }`
+            },
+            {
+                buggy: `public class MathUtils {
+        public int addNumbers(int a, int b) {
+            int sum = a + b;
+        }
+    }`,
+                correct: `public class MathUtils {
+        public int addNumbers(int a, int b) {
+            int sum = a + b;
+            return sum;
+        }
+    }`
+            },
+            {
+                buggy: `public class LoopExample {
+        public static void main(String[] args) {
+            for (int i = 0; i <= 5; i--) {
+                System.out.println(i);
+            }
+        }
+    }`,
+                correct: `public class LoopExample {
+        public static void main(String[] args) {
+            for (int i = 0; i <= 5; i++) {
+                System.out.println(i);
+            }
+        }
+    }`
+            },
+            {
+                buggy: `public class NumberCheck {
+        public static void main(String[] args) {
+            int num = -5;
+            if (num = 0) {
+                System.out.println("Number is zero");
+            } else {
+                System.out.println("Number is nonzero");
+            }
+        }
+    }`,
+                correct: `public class NumberCheck {
+        public static void main(String[] args) {
+            int num = -5;
+            if (num == 0) {
+                System.out.println("Number is zero");
+            } else {
+                System.out.println("Number is nonzero");
+            }
+        }
+    }`
+            }
+        ];
+    
+        let currentLevel = 0;
+        let gameOver = false;
+    
+        function loadBuggyCode() {
+            if (currentLevel < bugLevels.length) {
+                document.getElementById("buggyCode").innerText = bugLevels[currentLevel].buggy;
+                document.getElementById("userCode").value = "";
+                document.getElementById("result").innerHTML = "";
+            } else {
+                document.getElementById("result").innerHTML = "🏆 You Win! You survived all the challenges!";
+                document.getElementById("result").style.color = "lightgreen";
+                gameOver = true;
+            }
+        }
+    
+        function checkSolution() {
+            if (gameOver) return;
+    
+            let userCode = document.getElementById("userCode").value.trim();
+            let correctCode = bugLevels[currentLevel].correct.trim();
+    
+            if (userCode === correctCode) {
+                document.getElementById("result").innerHTML = "✅ Correct! Moving to next bug...";
+                document.getElementById("result").style.color = "lightgreen";
+                currentLevel++;
+                setTimeout(loadBuggyCode, 1500);
+            } else {
+                document.getElementById("result").innerHTML = "❌ Incorrect! Game Over!";
+                document.getElementById("result").style.color = "red";
+                gameOver = true;
+            }
+        }
+    
+        window.onload = loadBuggyCode;
+    </script>
+</body>
+</html>         

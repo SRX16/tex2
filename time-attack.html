@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Attack Mode</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            margin: 0;
+            margin-bottom: 15px;
+            padding: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: url('1.jpg') no-repeat center center/cover;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: black;
+            width: 1282px;
+            margin: 0 0 10px 0;
+
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links .active {
+            background: rgb(26, 116, 89);
+            border-radius: 5px;
+            outline: 1px solid rgba(26, 190, 196, 0.76); 
+            box-shadow: 0 0 2px 3px rgba(26, 190, 196, 0.2);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1200px;
+            width: 100%;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .box-title {
+            
+            width: 400px;
+            padding: 25px;
+            margin: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(49, 165, 155);
+            margin-bottom: 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(19px);
+            background: rgba(0, 0, 0, 0.562);
+            box-shadow: rgba(26, 190, 196, 0.76);
+        }
+
+        .box1, .box2 {
+            padding: 15px;
+            background: #111;
+            border-radius: 8px;
+    
+        }
+
+        .box1 {
+            flex: 1;
+            text-align: center;
+            margin-right: 20px;
+            height: 450px;
+            border-radius: 20px;
+            backdrop-filter: blur(19px);
+            background: rgba(0, 0, 0, 0.562);
+            box-shadow: rgba(26, 190, 196, 0.76);
+        }
+
+        .box2-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .box2 {
+            height: 200px;
+            width: 100%;
+            text-align: center;
+            margin-left: 0px;
+            border-radius: 20px;
+            backdrop-filter: blur(19px);
+            background: rgba(0, 0, 0, 0.562);
+            box-shadow: rgba(26, 190, 196, 0.76);
+        }
+
+        .question {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .score-mistakes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .score {
+            color: lightgreen;
+            margin: 25px 0 25px 25px;
+        }
+
+        .mistakes {
+            color: orange;
+            margin: 25px 0 25px 25px;
+        }
+
+        .box-timer {
+            width: 100%;
+            text-align: center;
+            font-size: 20px;
+            color: yellow;
+            margin-top: 10px;
+            background: black;
+            padding: 80px 10px 80px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(19px);
+            background: rgba(0, 0, 0, 0.562);
+            box-shadow: rgba(26, 190, 196, 0.76);
+        }
+
+        textarea {
+            padding: 10px;
+            width: 80%;
+            height: 300px;
+            font-size: 16px;
+            border-radius: 15px;
+            margin: 20px 0 0 0;
+            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.089);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: rgb(35, 154, 158);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: rgb(0, 72, 139);
+        }
+
+        .feedback {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .correct {
+            color: lime;
+        }
+
+        .wrong {
+            color: red;
+        }
+
+      #question{
+        background: black;
+        padding: 50px;
+        border-radius: 15px;
+      }
+      #score {
+        background: rgb(24, 14, 14);
+
+      }
+      #mistake {
+        background-color: rgb(24, 14, 14);
+
+      }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ProgThoughts Creatives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attack-time.html" class="active">Time Attack Mode </a></li>
+                <li><a href="menu.html" class="#">Quit</a></li>
+                <li><a href="contact.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="box-title">Time Attack Mode</div>
+
+    <div class="container">
+        <div class="box1">
+          <textarea id="answer" placeholder="Type your answer here"></textarea>
+            <br>
+            <button onclick="checkAnswer()">Submit</button>
+            <p id="feedback" class="feedback"></p>
+            <button id="restart" onclick="restartGame()" style="display: none;">Restart</button>
+        </div>
+
+        <div class="box2-container">
+            <div class="box2">
+                <div class="question" id="question"></div>
+                <div class="score-mistakes">
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="mistakes">Mistakes: <span id="mistake">0</span></div>
+                </div>
+            </div>
+            <div class="box-timer">Time Left: <span id="time">60</span> seconds</div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "What will be the output of: System.out.println(5/2);", a: "2" },
+            { q: "Fix the error: int num = '10';", a: "int num = 10;" },
+            { q: "What keyword is used to handle exceptions in Java?", a: "try" },
+            { q: "Find the mistake: for(int i=0; i<5; i--)", a: "i++" },
+            { q: "How do you print 'Hello' in Java?", a: "System.out.println(\"Hello\");" }
+        ];
+
+        let score = 0;
+        let mistakes = 0;
+        let currentQuestion = 0;
+        let timeLeft = 60;
+        let timer;
+
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                document.getElementById("question").textContent = questions[currentQuestion].q;
+                document.getElementById("answer").value = "";
+                document.getElementById("feedback").textContent = "";
+            } else {
+                endGame("Game Over! Your Score: " + score + " | Mistakes: " + mistakes);
+            }
+        }
+
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value.trim();
+            let feedback = document.getElementById("feedback");
+
+            if (userAnswer === "") {
+                alert("Please enter an answer!");
+                return;
+            }
+
+            if (userAnswer === questions[currentQuestion].a) {
+                score++;
+                document.getElementById("score").textContent = score;
+                feedback.textContent = "Correct!";
+                feedback.className = "feedback correct";
+            } else {
+                mistakes++;
+                document.getElementById("mistake").textContent = mistakes;
+                feedback.textContent = "Wrong! The correct answer is: " + questions[currentQuestion].a;
+                feedback.className = "feedback wrong";
+            }
+            currentQuestion++;
+            setTimeout(loadQuestion, 1500);
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    document.getElementById("time").textContent = timeLeft;
+                } else {
+                    clearInterval(timer);
+                    endGame("Time's up! Your Score: " + score + " | Mistakes: " + mistakes);
+                }
+            }, 1000);
+        }
+
+        function endGame(message) {
+            document.getElementById("question").textContent = message;
+            document.getElementById("answer").style.display = "none";
+            document.querySelector("button").style.display = "none";
+            document.getElementById("restart").style.display = "inline";
+        }
+
+        function restartGame() {
+            location.reload();
+        }
+
+        loadQuestion();
+        startTimer();
+    </script>
+</body>
+</html>

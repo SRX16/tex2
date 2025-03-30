@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - InnovativeProjects</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .services {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .services h2 {
+            font-size: 36px;
+            color: rgb(0, 140, 255);
+            margin-left: 30px;
+        }
+
+        .services p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            margin-left: 15px;
+        }
+
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 260px;
+            height: 300px;
+            perspective: 1000px;
+            transition: filter 0.3s;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            font-size: 18px;
+            padding: 15px;
+        }
+
+        .flip-card-front {
+            background-color: #222;
+            box-shadow: 0 4px 8px rgba(0, 60, 255, 0.3);
+        }
+
+        .flip-card-front img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+        }
+
+        .flip-card-back {
+            background-color: black;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-back a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: red;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .services-list:hover .flip-card:not(:hover) {
+            filter: blur(5px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: black;
+            margin-top: 50px;
+            color: white;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <header>
+        <nav>
+            <div class="logo">InnovativeProjects</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html" class="active">Games</a></li>
+                <li><a href="contact.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="services">
+        <h2>Game Modes</h2>
+        <p>Choose from different debugging challenges to test your skills.</p>
+        <div class="services-list">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img src="time.jpg" alt="Time Attack Mode">
+                        <h3>Time Attack Mode</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>You have 1 minute to debug as fast as possible within a time limit.</p>
+                        <a href="time-attack.html">Play</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img src="time attack.jpg" alt="Challenge Mode">
+                        <h3>Challenge Mode</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Solve complex debugging puzzles with increasing difficulty.</p>
+                        <a href="challenge.html">Play</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img src="survival.png" alt="Survival Mode">
+                        <h3>Survival Mode</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Keep debugging for as long as you can without failing.</p>
+                        <a href="survival.html">Play</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img src="mystery.jpg" alt="Mystery Bug Mode">
+                        <h3>Mystery Bug Mode</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>Find hidden bugs with minimal clues provided.</p>
+                        <a href="mystery-bug.html">Play</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 InnovativeProjects. All rights reserved.</p>
+    </footer>
+</body>
+</html>

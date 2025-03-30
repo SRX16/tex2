@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Mode - Java Debugging Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('3.jpg') no-repeat center center/cover;
+            margin: 0;
+            padding: 0px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: black;
+            width: 1282px;
+            margin: 0 0 10px 0;
+
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links .active {
+            background: rgb(26, 116, 89);
+            border-radius: 5px;
+            outline: 1px solid rgba(26, 190, 196, 0.76); 
+            box-shadow: 0 0 2px 3px rgba(26, 190, 196, 0.2);
+        }
+
+        .nav-links a:hover, .nav-links .active {
+            background: rgb(26, 116, 89);
+            border-radius: 5px;
+            outline: 1px solid rgba(26, 190, 196, 0.76); 
+            box-shadow: 0 0 2px 3px rgba(26, 190, 196, 0.2);
+        }
+
+        /* Glassmorphism Box */
+        .box {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .box-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: skyblue;
+        }
+
+        .box-buggycode {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 15px;
+            text-align: left;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 16px;
+        }
+
+        textarea {
+            width: 98%;
+            height: 150px;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: rgba(41, 88, 173, 0.8);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: rgba(0, 54, 136, 0.9);
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">ProgThoughts Creatives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="challenge.html" class="active">Challenge Mode</a></li>
+                <li><a href="menu.html" class="#">Quit</a></li>
+                <li><a href="contact.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Challenge Mode Title Box -->
+    <div class="box">
+        <h2 class="box-title">Challenge Mode: Fix the Java Code</h2>
+        <p>Identify and fix the errors in the Java code below.</p>
+    </div>
+
+    <!-- Buggy Code Box -->
+    <div class="box">
+        <h3>Buggy Code:</h3>
+        <pre class="box-buggycode">
+public class HelloWorld {
+    public static void main(String args) {
+        System.out.println("Hello, world!");
+    }
+}
+        </pre>
+    </div>
+
+    <!-- Your Solution Box -->
+    <div class="box">
+        <h3>Your Solution:</h3>
+        <textarea id="userCode" placeholder="// Copy & Paste and Fix the code here..."></textarea>
+        <br>
+        <button onclick="checkSolution()">Submit Code</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function checkSolution() {
+            let userCode = document.getElementById("userCode").value.trim();
+
+            // Corrected Java Code
+            let correctCode = 
+`public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}`.trim();
+
+            if (userCode === correctCode) {
+                document.getElementById("result").innerHTML = "✅ Correct! Well done!";
+                document.getElementById("result").style.color = "lightgreen";
+            } else {
+                document.getElementById("result").innerHTML = "❌ Incorrect! Try again.";
+                document.getElementById("result").style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>
